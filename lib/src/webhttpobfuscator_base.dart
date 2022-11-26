@@ -8,6 +8,9 @@ class Awesome {
 }
 
 class HttpObfuscatorClient with DioMixin {
+  final String _obfuscatorServerUrl;
+
+  HttpObfuscatorClient(this._obfuscatorServerUrl);
 
   @override
   Future<Response<T>> get<T>(String path,
