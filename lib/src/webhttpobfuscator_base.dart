@@ -31,8 +31,54 @@ class HttpObfuscatorClient with DioMixin {
       CancelToken? cancelToken,
       ProgressCallback? onReceiveProgress}) async {
 
+    if(queryParameters != null) {
+      for(int i = 0; i < queryParameters.entries.length; i++) {
+        final key = queryParameters.keys.elementAt(i);
+        final value = queryParameters.values.elementAt(i);
+        if(i == 0) {
+          String prefix = "?";
+          if(path.contains(prefix)) {
+            prefix = "&";
+          }
+          path += "$prefix$key=$value";
+        } else {
+          path += "&$key=$value";
+        }
+      }
+    }
 
+    final requestJson = _convertRequestToJson(path, "GET", baseOptions.headers, null);
 
-    return Response(requestOptions: RequestOptions(path: path));
+    final encrypted = _payloadEncryptor(requestJson);
+    assert(encrypted is String);
+
+    final String result = await Connector.send(_obfuscatorServerUrl, requestJson);
+
+    // Decrypt result
+
+    final decrypted = _payloadDecryptor(result);
+    assert(decrypted is String);
+
+    // Convert to Object
+    final response = ObfuscatorResponse.fromJson(jsonDecode(decrypted));
+
+    return Response(
+        requestOptions: RequestOptions(path: path),
+        data: response.body as T?,
+        headers: response.headers,
+        statusCode: response.responseCode);
+  }
+
+  @override
+  Future<Response<T>> getUri<T>(Uri uri,
+      {Options? options,
+      CancelToken? cancelToken,
+      ProgressCallback? onReceiveProgress}) {
+
+    return get(uri.toString(),
+        queryParameters: uri.queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+        onReceiveProgress: onReceiveProgress);
   }
 }
