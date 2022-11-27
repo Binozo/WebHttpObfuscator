@@ -5,7 +5,7 @@ class ObfuscatorResponse {
   final String _body;
   final Map<String, String> _headers;
 
-  ObfuscatorResponse.fromJson(Map<String, dynamic> json) : _responseCode = json["code"], _body = json["body"], _headers = json["headers"];
+  ObfuscatorResponse.fromJson(Map<String, dynamic> json) : _responseCode = json["code"], _body = json["body"], _headers = Map<String, String>.from(json["headers"]);
 
   Headers get headers =>
       Headers.fromMap(
