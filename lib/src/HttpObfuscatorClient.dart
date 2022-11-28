@@ -12,7 +12,11 @@ class HttpObfuscatorClient with DioMixin {
   final Function(String) _payloadDecryptor;
 
   final BaseOptions baseOptions;
-  HttpObfuscatorClient(this._obfuscatorServerUrl, this._payloadEncryptor, this._payloadDecryptor, this.baseOptions);
+  HttpObfuscatorClient(
+      this._obfuscatorServerUrl,
+      this._payloadEncryptor,
+      this._payloadDecryptor,
+      {BaseOptions? options}) : baseOptions = options ?? BaseOptions();
 
   String _convertRequestToJson(String url, String requestMethod, Map<String, dynamic> headers, dynamic payload) {
     final Map<String, dynamic> data = {
