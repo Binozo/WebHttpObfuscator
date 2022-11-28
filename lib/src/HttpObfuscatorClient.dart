@@ -3,8 +3,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:webhttpobfuscator/connector/connector.dart';
-import 'package:webhttpobfuscator/connector/obfuscator_response.dart';
+import 'package:web_http_obfuscator/connector/connector.dart';
+import 'package:web_http_obfuscator/connector/obfuscator_response.dart';
 
 class HttpObfuscatorClient with DioMixin {
   final String _obfuscatorServerUrl;
