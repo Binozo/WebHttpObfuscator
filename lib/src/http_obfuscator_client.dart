@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:dio/adapter_browser.dart';
 import 'package:dio/dio.dart';
 import 'package:web_http_obfuscator/connector/connector.dart';
 import 'package:web_http_obfuscator/connector/obfuscator_response.dart';
@@ -18,6 +19,7 @@ class HttpObfuscatorClient with DioMixin {
       this._payloadDecryptor,
       {BaseOptions? options}) : baseOptions = options ?? BaseOptions() {
     this.options = baseOptions;
+    this.httpClientAdapter = BrowserHttpClientAdapter();
   }
 
   String _convertRequestToJson(String url, String requestMethod, Map<String, dynamic> headers, dynamic payload) {
