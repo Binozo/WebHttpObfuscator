@@ -7,9 +7,10 @@ Obfuscate your Http Requests on Flutter Web using the encryption of your choice 
 
 ```yaml
 dependencies:
-  git:
-    url: https://github.com/Binozo/WebHttpObfuscator.git
-    ref: master
+  web_http_obfuscator:
+    git:
+      url: https://github.com/Binozo/WebHttpObfuscator.git
+      ref: master
 ```
 
 ### Setup your middleman server
