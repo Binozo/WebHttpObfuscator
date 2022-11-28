@@ -2,7 +2,7 @@ import 'package:webhttpobfuscator/webhttpobfuscator.dart';
 
 void main() async {
   final client = HttpObfuscatorClient(
-      "ws://localhost:8080",
+      "ws://localhost:9268",
           (data) => data,
           (data) => data
   );
