@@ -16,7 +16,9 @@ class HttpObfuscatorClient with DioMixin {
       this._obfuscatorServerUrl,
       this._payloadEncryptor,
       this._payloadDecryptor,
-      {BaseOptions? options}) : baseOptions = options ?? BaseOptions();
+      {BaseOptions? options}) : baseOptions = options ?? BaseOptions() {
+    this.options = baseOptions;
+  }
 
   String _convertRequestToJson(String url, String requestMethod, Map<String, dynamic> headers, dynamic payload) {
     final Map<String, dynamic> data = {
