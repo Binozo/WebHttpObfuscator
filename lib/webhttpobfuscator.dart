@@ -1,7 +1,7 @@
 /// Support for doing something awesome.
 ///
 /// More dartdocs go here.
-library webhttpobfuscator;
+library web_http_obfuscator;
 
 export 'src/HttpObfuscatorClient.dart';
 
