@@ -1,4 +1,4 @@
-import 'package:web_http_obfuscator/webhttpobfuscator.dart';
+import 'package:web_http_obfuscator/web_http_obfuscator.dart';
 
 void main() async {
   final client = HttpObfuscatorClient(
