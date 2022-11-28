@@ -3,6 +3,6 @@
 /// More dartdocs go here.
 library web_http_obfuscator;
 
-export 'src/HttpObfuscatorClient.dart';
+export 'src/HttpObfuscatorClient.dart' show HttpObfuscatorClient;
 
 // TODO: Export any libraries intended for clients of this package.
