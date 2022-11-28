@@ -19,7 +19,6 @@ class HttpObfuscatorClient with DioMixin {
       this._payloadDecryptor,
       {BaseOptions? options}) : baseOptions = options ?? BaseOptions() {
     this.options = baseOptions;
-    this.httpClientAdapter = BrowserHttpClientAdapter();
   }
 
   String _convertRequestToJson(String url, String requestMethod, Map<String, dynamic> headers, dynamic payload) {
