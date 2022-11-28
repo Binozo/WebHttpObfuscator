@@ -20,7 +20,7 @@ See the [installation Guide](https://github.com/Binozo/WebHttpObfuscator-Server)
 
 ```dart
 final client = HttpObfuscatorClient(
-    "ws://localhost:8080",
+    "ws://localhost:9268",
         (data) => yourEncryptionFunction(data),
         (data) => yourDecryptionFunction(data)
 );
