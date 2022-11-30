@@ -26,3 +26,11 @@ final client = HttpObfuscatorClient(
 );
 final response = await client.get("https://google.com/");
 ```
+
+## Currently supported HTTP methods
+- GET
+- POST
+- PUT
+- DELETE
+
+Warning: Dio's ``download`` function is unsupported!
