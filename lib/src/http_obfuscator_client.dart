@@ -140,4 +140,51 @@ class HttpObfuscatorClient with DioMixin {
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress);
   }
+
+  @override
+  Future<Response<T>> put<T>(String path,
+      {data,
+      Map<String, dynamic>? queryParameters,
+      Options? options,
+      CancelToken? cancelToken,
+      ProgressCallback? onSendProgress,
+      ProgressCallback? onReceiveProgress}) async {
+
+    path = _convertQueryParameters(path, queryParameters);
+
+    final requestJson = _convertRequestToJson(path, "PUT", baseOptions.headers, data);
+
+    final encrypted = _payloadEncryptor(requestJson);
+    assert(encrypted is String);
+
+    final String result = await Connector.send(_obfuscatorServerUrl, requestJson);
+
+    // Decrypt result
+    final decrypted = _payloadDecryptor(result);
+    assert(decrypted is String);
+
+    final response = ObfuscatorResponse.fromJson(jsonDecode(decrypted));
+
+    return Response(
+        requestOptions: RequestOptions(path: path),
+        data: response.body as T?,
+        headers: response.headers,
+        statusCode: response.responseCode);
+  }
+
+  @override
+  Future<Response<T>> putUri<T>(Uri uri,
+      {data,
+      Options? options,
+      CancelToken? cancelToken,
+      ProgressCallback? onSendProgress,
+      ProgressCallback? onReceiveProgress}) {
+
+    return put(uri.toString(),
+        queryParameters: uri.queryParameters,
+        options: options,
+        data: data,
+        cancelToken: cancelToken,
+        onReceiveProgress: onReceiveProgress);
+  }
 }
