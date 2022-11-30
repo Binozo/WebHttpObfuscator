@@ -1,5 +1,3 @@
-// TODO: Put public facing types in this file.
-
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -21,6 +19,9 @@ class HttpObfuscatorClient with DioMixin {
   }
 
   String _convertRequestToJson(String url, String requestMethod, Map<String, dynamic> headers, dynamic payload) {
+    if(baseOptions.baseUrl.isNotEmpty) {
+      url = "${baseOptions.baseUrl}$url";
+    }
     final Map<String, dynamic> data = {
       "method" : requestMethod,
       "url" : url,
