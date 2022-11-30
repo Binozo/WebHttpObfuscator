@@ -65,7 +65,7 @@ class HttpObfuscatorClient with DioMixin {
     final encrypted = await _payloadEncryptor(requestJson);
     assert(encrypted is String);
 
-    final String result = await Connector.send(_obfuscatorServerUrl, requestJson);
+    final String result = await Connector.send(_obfuscatorServerUrl, encrypted);
 
     // Decrypt result
     final decrypted = await _payloadDecryptor(result);
@@ -110,7 +110,7 @@ class HttpObfuscatorClient with DioMixin {
     final encrypted = await _payloadEncryptor(requestJson);
     assert(encrypted is String);
 
-    final String result = await Connector.send(_obfuscatorServerUrl, requestJson);
+    final String result = await Connector.send(_obfuscatorServerUrl, encrypted);
 
     // Decrypt result
     final decrypted = await _payloadDecryptor(result);
@@ -157,7 +157,7 @@ class HttpObfuscatorClient with DioMixin {
     final encrypted = await _payloadEncryptor(requestJson);
     assert(encrypted is String);
 
-    final String result = await Connector.send(_obfuscatorServerUrl, requestJson);
+    final String result = await Connector.send(_obfuscatorServerUrl, encrypted);
 
     // Decrypt result
     final decrypted = await _payloadDecryptor(result);
@@ -202,7 +202,7 @@ class HttpObfuscatorClient with DioMixin {
     final encrypted = await _payloadEncryptor(requestJson);
     assert(encrypted is String);
 
-    final String result = await Connector.send(_obfuscatorServerUrl, requestJson);
+    final String result = await Connector.send(_obfuscatorServerUrl, encrypted);
 
     // Decrypt result
     final decrypted = await _payloadDecryptor(result);
