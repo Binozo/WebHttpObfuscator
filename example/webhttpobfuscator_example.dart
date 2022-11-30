@@ -6,6 +6,6 @@ void main() async {
           (data) => data,
           (data) => data
   );
-  final response = await client.get("https://google.com/");
+  final response = await client.post("https://google.com/", data: {"my":"form"});
   print("Response: ${response.data}");
 }
