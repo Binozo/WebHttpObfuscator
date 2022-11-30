@@ -62,13 +62,13 @@ class HttpObfuscatorClient with DioMixin {
 
     final requestJson = _convertRequestToJson(path, "GET", baseOptions.headers, null);
 
-    final encrypted = _payloadEncryptor(requestJson);
+    final encrypted = await _payloadEncryptor(requestJson);
     assert(encrypted is String);
 
     final String result = await Connector.send(_obfuscatorServerUrl, requestJson);
 
     // Decrypt result
-    final decrypted = _payloadDecryptor(result);
+    final decrypted = await _payloadDecryptor(result);
     assert(decrypted is String);
 
     // Convert to Object
@@ -107,13 +107,13 @@ class HttpObfuscatorClient with DioMixin {
 
     final requestJson = _convertRequestToJson(path, "POST", baseOptions.headers, data);
 
-    final encrypted = _payloadEncryptor(requestJson);
+    final encrypted = await _payloadEncryptor(requestJson);
     assert(encrypted is String);
 
     final String result = await Connector.send(_obfuscatorServerUrl, requestJson);
 
     // Decrypt result
-    final decrypted = _payloadDecryptor(result);
+    final decrypted = await _payloadDecryptor(result);
     assert(decrypted is String);
 
     final response = ObfuscatorResponse.fromJson(jsonDecode(decrypted));
@@ -154,13 +154,13 @@ class HttpObfuscatorClient with DioMixin {
 
     final requestJson = _convertRequestToJson(path, "PUT", baseOptions.headers, data);
 
-    final encrypted = _payloadEncryptor(requestJson);
+    final encrypted = await _payloadEncryptor(requestJson);
     assert(encrypted is String);
 
     final String result = await Connector.send(_obfuscatorServerUrl, requestJson);
 
     // Decrypt result
-    final decrypted = _payloadDecryptor(result);
+    final decrypted = await _payloadDecryptor(result);
     assert(decrypted is String);
 
     final response = ObfuscatorResponse.fromJson(jsonDecode(decrypted));
@@ -199,13 +199,13 @@ class HttpObfuscatorClient with DioMixin {
 
     final requestJson = _convertRequestToJson(path, "DELETE", baseOptions.headers, data);
 
-    final encrypted = _payloadEncryptor(requestJson);
+    final encrypted = await _payloadEncryptor(requestJson);
     assert(encrypted is String);
 
     final String result = await Connector.send(_obfuscatorServerUrl, requestJson);
 
     // Decrypt result
-    final decrypted = _payloadDecryptor(result);
+    final decrypted = await _payloadDecryptor(result);
     assert(decrypted is String);
 
     final response = ObfuscatorResponse.fromJson(jsonDecode(decrypted));
