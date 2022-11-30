@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 
-import 'package:dio/adapter_browser.dart';
 import 'package:dio/dio.dart';
 import 'package:web_http_obfuscator/connector/connector.dart';
 import 'package:web_http_obfuscator/connector/obfuscator_response.dart';
