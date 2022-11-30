@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -31,13 +32,7 @@ class HttpObfuscatorClient with DioMixin {
     return jsonEncode(data);
   }
 
-  @override
-  Future<Response<T>> get<T>(String path,
-      {Map<String, dynamic>? queryParameters,
-      Options? options,
-      CancelToken? cancelToken,
-      ProgressCallback? onReceiveProgress}) async {
-
+  String _convertQueryParameters(String path, Map<String, dynamic>? queryParameters) {
     if(queryParameters != null) {
       for(int i = 0; i < queryParameters.entries.length; i++) {
         final key = queryParameters.keys.elementAt(i);
@@ -53,6 +48,17 @@ class HttpObfuscatorClient with DioMixin {
         }
       }
     }
+    return path;
+  }
+
+  @override
+  Future<Response<T>> get<T>(String path,
+      {Map<String, dynamic>? queryParameters,
+      Options? options,
+      CancelToken? cancelToken,
+      ProgressCallback? onReceiveProgress}) async {
+
+    path = _convertQueryParameters(path, queryParameters);
 
     final requestJson = _convertRequestToJson(path, "GET", baseOptions.headers, null);
 
@@ -62,7 +68,6 @@ class HttpObfuscatorClient with DioMixin {
     final String result = await Connector.send(_obfuscatorServerUrl, requestJson);
 
     // Decrypt result
-
     final decrypted = _payloadDecryptor(result);
     assert(decrypted is String);
 
@@ -85,6 +90,53 @@ class HttpObfuscatorClient with DioMixin {
     return get(uri.toString(),
         queryParameters: uri.queryParameters,
         options: options,
+        cancelToken: cancelToken,
+        onReceiveProgress: onReceiveProgress);
+  }
+
+  @override
+  Future<Response<T>> post<T>(String path,
+      {data,
+      Map<String, dynamic>? queryParameters,
+      Options? options,
+      CancelToken? cancelToken,
+      ProgressCallback? onSendProgress,
+      ProgressCallback? onReceiveProgress}) async {
+
+    path = _convertQueryParameters(path, queryParameters);
+
+    final requestJson = _convertRequestToJson(path, "POST", baseOptions.headers, data);
+
+    final encrypted = _payloadEncryptor(requestJson);
+    assert(encrypted is String);
+
+    final String result = await Connector.send(_obfuscatorServerUrl, requestJson);
+
+    // Decrypt result
+    final decrypted = _payloadDecryptor(result);
+    assert(decrypted is String);
+
+    final response = ObfuscatorResponse.fromJson(jsonDecode(decrypted));
+
+    return Response(
+        requestOptions: RequestOptions(path: path),
+        data: response.body as T?,
+        headers: response.headers,
+        statusCode: response.responseCode);
+  }
+
+  @override
+  Future<Response<T>> postUri<T>(Uri uri,
+      {data,
+        Options? options,
+        CancelToken? cancelToken,
+        ProgressCallback? onSendProgress,
+        ProgressCallback? onReceiveProgress}) {
+
+    return post(uri.toString(),
+        queryParameters: uri.queryParameters,
+        options: options,
+        data: data,
         cancelToken: cancelToken,
         onReceiveProgress: onReceiveProgress);
   }
